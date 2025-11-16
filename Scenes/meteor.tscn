@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://bxxbmqcay7jh7"]
+
+[ext_resource type="Texture2D" uid="uid://dh7ha2rb18buq" path="res://Assets/red-meteor.png" id="1_5civa"]
+[ext_resource type="Script" uid="uid://wvg11hfhjhij" path="res://Scenes/meteor.gd" id="1_wm1ig"]
+[ext_resource type="Texture2D" uid="uid://c4cqklxgcv2ks" path="res://Assets/gray-meteor.png" id="3_bgiwl"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wm1ig"]
+radius = 50.159744
+
+[node name="Meteor" type="Area2D"]
+collision_layer = 2
+collision_mask = 9
+script = ExtResource("1_wm1ig")
+
+[node name="RedMeteor" type="Sprite2D" parent="."]
+z_index = 1
+scale = Vector2(0.1261262, 0.12612613)
+texture = ExtResource("1_5civa")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_wm1ig")
+
+[node name="GrayMeteor" type="Sprite2D" parent="."]
+z_index = 1
+scale = Vector2(0.24269693, 0.24269664)
+texture = ExtResource("3_bgiwl")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

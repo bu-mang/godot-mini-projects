@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://7bwjmuiiimoe"]
+
+[ext_resource type="Script" uid="uid://cp328571jyphr" path="res://Scenes/player.gd" id="1_cvnsp"]
+[ext_resource type="Texture2D" uid="uid://bxbjcqqvljpk1" path="res://Assets/spaceship.png" id="1_v0iea"]
+
+[node name="Player" type="CharacterBody2D"]
+collision_mask = 6
+script = ExtResource("1_cvnsp")
+
+[node name="PlayerImage" type="Sprite2D" parent="."]
+scale = Vector2(0.09999999, 0.10000004)
+texture = ExtResource("1_v0iea")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+position = Vector2(-3.455764, 10.930741)
+polygon = PackedVector2Array(3.455764, -48.93074, 13.455764, -32.93074, 17.455765, -9.930741, 15.455764, 5.0692587, 11.455764, 17.06926, 3.455764, 16.06926, -3.544236, 17.06926, -9.544236, 5.0692587, -10.544236, -10.930741, -6.544236, -33.93074)
