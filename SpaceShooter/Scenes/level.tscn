@@ -1,8 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://bioy7t2y53nlm"]
+[gd_scene load_steps=8 format=3 uid="uid://bioy7t2y53nlm"]
 
 [ext_resource type="Script" uid="uid://bghg6mglsfoef" path="res://Scenes/level.gd" id="1_81xng"]
 [ext_resource type="PackedScene" uid="uid://7bwjmuiiimoe" path="res://Scenes/player.tscn" id="1_tumq0"]
-[ext_resource type="PackedScene" uid="uid://dpfrp4gg5yosi" path="res://Scenes/laser.tscn" id="3_6phgx"]
 
 [sub_resource type="Gradient" id="Gradient_tumq0"]
 colors = PackedColorArray(0.19514641, 0.04138138, 0.19909981, 1, 0.15500906, 0.110429205, 0.36020488, 1)
@@ -44,7 +43,7 @@ scale = Vector2(3.075462, 1359.4053)
 texture = SubResource("GradientTexture1D_k5f4k")
 
 [node name="Player" parent="." instance=ExtResource("1_tumq0")]
-position = Vector2(92, 611)
+position = Vector2(636, 611)
 
 [node name="Border" type="Node2D" parent="."]
 
@@ -78,13 +77,13 @@ position = Vector2(640, 738)
 rotation = 1.5707964
 shape = SubResource("RectangleShape2D_6phgx")
 
-[node name="Laser" parent="." instance=ExtResource("3_6phgx")]
-position = Vector2(479, 244)
-
 [node name="MeteorSpawnTimer" type="Timer" parent="."]
 autostart = true
 script = SubResource("GDScript_wqkje")
 
 [node name="Meteors" type="Node2D" parent="."]
 
+[node name="Lasers" type="Node2D" parent="."]
+
+[connection signal="laser" from="Player" to="." method="_on_player_laser"]
 [connection signal="timeout" from="MeteorSpawnTimer" to="." method="_on_meteor_spawn_timer_timeout"]
