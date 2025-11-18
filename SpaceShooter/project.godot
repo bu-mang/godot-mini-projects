@@ -54,3 +54,4 @@ shoot={
 2d_physics/layer_2="Meteor"
 2d_physics/layer_3="Walls"
 2d_physics/layer_4="Laser"
+2d_physics/layer_5="Star"

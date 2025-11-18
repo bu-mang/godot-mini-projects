@@ -27,8 +27,6 @@ func _process(_delta) -> void:
 		can_shoot = false  # 쿨타임 시작
 		laser.emit($LaserStartPosition.global_position)
 		$LaserCoolDownTimer.start()  # 0.5초 쿨타임 타이머
-	
-
 
 func _on_laser_cool_down_timer_timeout() -> void:
 	print("coolDown")
