@@ -37,13 +37,26 @@ func _ready() -> void:
 		# 4. 배경에 추가
 		stars_node.add_child(star)
 
+# 플레이 시간 측정
+func _process(delta: float) -> void:
+	if not GameState.game_over:
+		GameState.elapsed_time += delta
+
+# 메테오 리스폰 시
 func _on_meteor_spawn_timer_timeout() -> void:
+	if GameState.game_over == true:
+		return
+	  
 	# 2. create an instance
 	var meteor = meteor_scene.instantiate()
 	# 3. attach the node to the scene tree
 	$Meteors.add_child(meteor)
 
+# 레이저 발사 시
 func _on_player_laser(pos: Vector2) -> void:
+	if GameState.game_over == true:
+		return
+	
 	# 2. create an instance
 	var laser = laser_scene.instantiate()
 	# 3. attach the node to the scene tree
@@ -52,7 +65,11 @@ func _on_player_laser(pos: Vector2) -> void:
 	var laserCoord = pos - Vector2()
 	laser.position = laserCoord
 
+# 동전 리스폰 시
 func _on_coin_spawn_timer_timeout() -> void:
+	if GameState.game_over == true:
+		return
+		
 	# 2. create an instance
 	var coin = coin_scene.instantiate()
 	# 3. attach the node to the scene tree

@@ -122,3 +122,11 @@ func add_level(amount: int) -> void:
 
 func reset_level() -> void:
 	level = 0
+	
+
+# 게임 시간
+var elapsed_time: float = 0.0:
+	set(value):
+		elapsed_time = value
+	get:
+		return elapsed_time

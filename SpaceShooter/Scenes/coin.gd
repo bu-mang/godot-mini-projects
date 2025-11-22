@@ -6,7 +6,8 @@ var is_executed := false
 var scoring_animation := load("res://Scenes/scoringAnimation.tscn")
 
 func _ready():
-	print("spawn")
+	GameState.is_game_over_changed.connect(on_is_game_over_changed)
+	
 	rng.randomize()
 	
 	# ------ Randomize Position ------
@@ -19,15 +20,7 @@ func _ready():
 	# 사실 상 yield다.
 	await get_tree().create_timer(5.0).timeout
 
-	# 1초간 투명도 0으로 줄이기 (페이드아웃)
-	var tween := create_tween()
-	tween.tween_property(self, "modulate:a", 0.0, 0.3) # 1초 동안 a(투명도)를 0으로
-	
-	# 애니메이션 끝날 때까지 정확히 대기
-	await tween.finished  
-	
-	# 제거
-	queue_free()
+	play_faded_out_animation()
 
 func _on_body_entered(body: Node2D) -> void:
 	if (!is_executed):
@@ -42,4 +35,20 @@ func _on_body_entered(body: Node2D) -> void:
 		get_parent().add_child(score_anim)
 		
 		print("scored up by ...", body)
+		
+func play_faded_out_animation():
+		# 1초간 투명도 0으로 줄이기 (페이드아웃)
+	var tween := create_tween()
+	tween.tween_property(self, "modulate:a", 0.0, 0.3) # 1초 동안 a(투명도)를 0으로
+	
+	# 애니메이션 끝날 때까지 정확히 대기
+	await tween.finished
+	 
+	# 제거
+	queue_free()
+	
+func on_is_game_over_changed(game_over):
+	if game_over == true:
+		play_faded_out_animation()
+	
 	

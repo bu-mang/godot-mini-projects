@@ -57,18 +57,20 @@ func _process(delta):
 		position += Vector2(direction_x, 1.0) * speed * delta
 		rotation_degrees += rotate_speed * delta
 
-func _on_body_entered(body: Node2D) -> void:
+func _on_body_entered(_body: Node2D) -> void:
 	if !is_cracked:
-		print('body entered', body)
 		GameState.game_over = true
+		play_flash_animation(false)
+		
 	
 func _on_area_entered(area: Area2D) -> void:
 	# 충돌한 레이저 삭제
 	area.queue_free()
 
 	is_cracked = true
+	play_flash_animation(true)
 
-	# Meteor 본체 숨기기
+func play_flash_animation(eliminate: bool):
 	for img in meteorImages:
 		img.visible = false
 
@@ -80,11 +82,13 @@ func _on_area_entered(area: Area2D) -> void:
 		flash = meteorFlashes[1]
 
 	flash.visible = true
-	flash.play("default")  # 애니메이션 재생
-
-	# 애니메이션 끝날 때 메테오 삭제
-	flash.animation_finished.connect(_on_flash_finished)
 	
+	# 애니메이션 끝날 때 메테오 삭제
+	if eliminate:
+		flash.play("hit_once") # 1회 재생용
+		flash.animation_finished.connect(_on_flash_finished, CONNECT_ONE_SHOT)
+	else:
+		flash.play("hit_loop") # 무한 루프용
+		
 func _on_flash_finished():
 	queue_free()
-	

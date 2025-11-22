@@ -16,6 +16,9 @@ func _ready() -> void:
 	z_index = 1
 
 func _process(_delta) -> void:
+	if GameState.game_over:
+		return
+
 	#	Input.get_vector는 이미 normalize(정규화)된 녀석을 반환한다.
 	var vector_direction = Input.get_vector('move_left', 'move_right', 'move_up', 'move_down')
 	# velocity: 캐릭터 바디 내장 변수
@@ -30,5 +33,4 @@ func _process(_delta) -> void:
 		$LaserCoolDownTimer.start()  # 0.5초 쿨타임 타이머
 
 func _on_laser_cool_down_timer_timeout() -> void:
-	print("coolDown")
 	can_shoot = true
