@@ -1,13 +1,20 @@
-[gd_scene load_steps=8 format=3 uid="uid://bioy7t2y53nlm"]
+[gd_scene load_steps=11 format=3 uid="uid://bioy7t2y53nlm"]
 
 [ext_resource type="Script" uid="uid://bghg6mglsfoef" path="res://Scenes/level.gd" id="1_81xng"]
 [ext_resource type="PackedScene" uid="uid://7bwjmuiiimoe" path="res://Scenes/player.tscn" id="1_tumq0"]
+[ext_resource type="Script" uid="uid://cyeuu74osijjp" path="res://Scenes/score_label.gd" id="3_6phgx"]
 
 [sub_resource type="Gradient" id="Gradient_tumq0"]
 colors = PackedColorArray(0.19514641, 0.04138138, 0.19909981, 1, 0.15500906, 0.110429205, 0.36020488, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_k5f4k"]
 gradient = SubResource("Gradient_tumq0")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k5f4k"]
+size = Vector2(42, 720)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6phgx"]
+size = Vector2(36, 1364)
 
 [sub_resource type="GDScript" id="GDScript_wqkje"]
 script/source = "extends Timer
@@ -18,20 +25,85 @@ func _ready() -> void:
 	pass # Replace with function body.
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-
-
 func _on_timeout() -> void:
 	pass # Replace with function body.
 "
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_k5f4k"]
-size = Vector2(42, 720)
+[sub_resource type="FontFile" id="FontFile_6phgx"]
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/17/0/ascent = 0.0
+cache/0/17/0/descent = 0.0
+cache/0/17/0/underline_position = 0.0
+cache/0/17/0/underline_thickness = 0.0
+cache/0/17/0/scale = 1.0
+cache/0/19/0/ascent = 0.0
+cache/0/19/0/descent = 0.0
+cache/0/19/0/underline_position = 0.0
+cache/0/19/0/underline_thickness = 0.0
+cache/0/19/0/scale = 1.0
+cache/0/21/0/ascent = 0.0
+cache/0/21/0/descent = 0.0
+cache/0/21/0/underline_position = 0.0
+cache/0/21/0/underline_thickness = 0.0
+cache/0/21/0/scale = 1.0
+cache/0/23/0/ascent = 0.0
+cache/0/23/0/descent = 0.0
+cache/0/23/0/underline_position = 0.0
+cache/0/23/0/underline_thickness = 0.0
+cache/0/23/0/scale = 1.0
+cache/0/24/0/ascent = 0.0
+cache/0/24/0/descent = 0.0
+cache/0/24/0/underline_position = 0.0
+cache/0/24/0/underline_thickness = 0.0
+cache/0/24/0/scale = 1.0
+cache/0/25/0/ascent = 0.0
+cache/0/25/0/descent = 0.0
+cache/0/25/0/underline_position = 0.0
+cache/0/25/0/underline_thickness = 0.0
+cache/0/25/0/scale = 1.0
+cache/0/26/0/ascent = 0.0
+cache/0/26/0/descent = 0.0
+cache/0/26/0/underline_position = 0.0
+cache/0/26/0/underline_thickness = 0.0
+cache/0/26/0/scale = 1.0
+cache/0/27/0/ascent = 0.0
+cache/0/27/0/descent = 0.0
+cache/0/27/0/underline_position = 0.0
+cache/0/27/0/underline_thickness = 0.0
+cache/0/27/0/scale = 1.0
+cache/0/28/0/ascent = 0.0
+cache/0/28/0/descent = 0.0
+cache/0/28/0/underline_position = 0.0
+cache/0/28/0/underline_thickness = 0.0
+cache/0/28/0/scale = 1.0
+cache/0/29/0/ascent = 0.0
+cache/0/29/0/descent = 0.0
+cache/0/29/0/underline_position = 0.0
+cache/0/29/0/underline_thickness = 0.0
+cache/0/29/0/scale = 1.0
+cache/0/30/0/ascent = 0.0
+cache/0/30/0/descent = 0.0
+cache/0/30/0/underline_position = 0.0
+cache/0/30/0/underline_thickness = 0.0
+cache/0/30/0/scale = 1.0
+cache/0/31/0/ascent = 0.0
+cache/0/31/0/descent = 0.0
+cache/0/31/0/underline_position = 0.0
+cache/0/31/0/underline_thickness = 0.0
+cache/0/31/0/scale = 1.0
+cache/0/32/0/ascent = 0.0
+cache/0/32/0/descent = 0.0
+cache/0/32/0/underline_position = 0.0
+cache/0/32/0/underline_thickness = 0.0
+cache/0/32/0/scale = 1.0
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_6phgx"]
-size = Vector2(36, 1364)
+[sub_resource type="LabelSettings" id="LabelSettings_81xng"]
+font = SubResource("FontFile_6phgx")
+font_size = 32
 
 [node name="Level" type="Node2D"]
 script = ExtResource("1_81xng")
@@ -42,9 +114,7 @@ rotation = -1.5707964
 scale = Vector2(3.075462, 1359.4053)
 texture = SubResource("GradientTexture1D_k5f4k")
 
-[node name="CoinSpawnTimer" type="Timer" parent="."]
-autostart = true
-script = SubResource("GDScript_wqkje")
+[node name="Stars" type="Node" parent="BG"]
 
 [node name="Border" type="Node2D" parent="."]
 
@@ -84,14 +154,34 @@ position = Vector2(636, 611)
 [node name="Meteors" type="Node2D" parent="."]
 
 [node name="MeteorSpawnTimer" type="Timer" parent="."]
-wait_time = 3.0
+wait_time = 0.2
 autostart = true
 script = SubResource("GDScript_wqkje")
 
 [node name="Lasers" type="Node2D" parent="."]
 
+[node name="CoinSpawnTimer" type="Timer" parent="."]
+autostart = true
+script = SubResource("GDScript_wqkje")
+
 [node name="Coins" type="Node2D" parent="."]
 
-[connection signal="timeout" from="CoinSpawnTimer" to="." method="_on_coin_spawn_timer_timeout"]
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="ScoreLabel" type="Label" parent="UI"]
+anchors_preset = -1
+anchor_left = 0.044000003
+anchor_top = 0.041
+anchor_right = 0.044000003
+anchor_bottom = 0.041
+offset_left = -30.320004
+offset_top = -11.52
+offset_right = 9.6799965
+offset_bottom = 11.48
+text = "Score: 0"
+label_settings = SubResource("LabelSettings_81xng")
+script = ExtResource("3_6phgx")
+
 [connection signal="laser" from="Player" to="." method="_on_player_laser"]
 [connection signal="timeout" from="MeteorSpawnTimer" to="." method="_on_meteor_spawn_timer_timeout"]
+[connection signal="timeout" from="CoinSpawnTimer" to="." method="_on_coin_spawn_timer_timeout"]

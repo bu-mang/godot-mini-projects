@@ -15,6 +15,10 @@ run/main_scene="uid://bioy7t2y53nlm"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://Assets/icon.svg"
 
+[autoload]
+
+GameState="*res://Scenes/gameState.gd"
+
 [display]
 
 window/size/viewport_width=1280
@@ -54,4 +58,4 @@ shoot={
 2d_physics/layer_2="Meteor"
 2d_physics/layer_3="Walls"
 2d_physics/layer_4="Laser"
-2d_physics/layer_5="Star"
+2d_physics/layer_5="Coin"

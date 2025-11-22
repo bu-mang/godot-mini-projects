@@ -13,6 +13,7 @@ func _ready() -> void:
 	var widthCoord = size[0] / 2
 	var heightCoord = size[1] - 100
 	position = Vector2(widthCoord, heightCoord)
+	z_index = 1
 
 func _process(_delta) -> void:
 	#	Input.get_vector는 이미 normalize(정규화)된 녀석을 반환한다.
