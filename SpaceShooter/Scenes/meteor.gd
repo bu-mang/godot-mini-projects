@@ -1,7 +1,7 @@
 extends Area2D
 
-var min_speed := 300
-var max_speed := 500
+var min_speed := 100
+var max_speed := 300
 var speed := 0
 
 var rotate_speed := 0
@@ -16,6 +16,8 @@ var is_cracked := false
 var index: int
 
 func _ready():
+	GameState.level_changed.connect(_on_level_changed)
+	
 	rng.randomize()
 	$GrayMeteor.visible = false
 	$RedMeteor.visible = false
@@ -57,12 +59,14 @@ func _process(delta):
 		position += Vector2(direction_x, 1.0) * speed * delta
 		rotation_degrees += rotate_speed * delta
 
+# 우주선과 부딫힌 경우 (게임오버)
 func _on_body_entered(_body: Node2D) -> void:
 	if !is_cracked:
 		GameState.game_over = true
 		play_flash_animation(false)
 		
 	
+# 레이저가 부딫힌 경우
 func _on_area_entered(area: Area2D) -> void:
 	# 충돌한 레이저 삭제
 	area.queue_free()
@@ -87,8 +91,13 @@ func play_flash_animation(eliminate: bool):
 	if eliminate:
 		flash.play("hit_once") # 1회 재생용
 		flash.animation_finished.connect(_on_flash_finished, CONNECT_ONE_SHOT)
+		
 	else:
 		flash.play("hit_loop") # 무한 루프용
 		
 func _on_flash_finished():
 	queue_free()
+
+func _on_level_changed(_level: int) -> void:
+	min_speed += 500
+	max_speed += 500

@@ -6,17 +6,18 @@ func _on_timer_timeout() -> void:
 # 1. load the scene
 var meteor_scene: PackedScene = load("res://Scenes/meteor.tscn")
 var laser_scene: PackedScene = load("res://Scenes/laser.tscn")
-var coin_scene: PackedScene = load("res://Scenes/coin.tscn")
+var fuel_scene: PackedScene = load("res://Scenes/fuel.tscn")
 var bg_star = load("res://Assets/bg-star.png")
+
+const MAX_FUEL = 8
+
+const MIN_FUEL_DISTANCE := 150.0  # 다른 fuel과 이 거리 이상 떨어지게
+const MAX_REPOSITION_TRIES := 10 # 너무 많이 도는 것 방지용
 
 func _ready() -> void:
 	var stars_node = $BG/Stars
-	
 	var rng = RandomNumberGenerator.new()
-	
-	var screen_size = get_viewport().get_visible_rect().size
-	var screen_width = screen_size[0]
-	var screen_height = screen_size[1]
+	var viewport_size = get_viewport().get_visible_rect().size
 	
 	for i in range(20):
 		# 1. 스프라이트 불러오기 + 텍스쳐 설정
@@ -29,18 +30,15 @@ func _ready() -> void:
 		
 		star.modulate.a = 0.5
 		
-		# 3. 좌표 설정
-		var star_x = rng.randf_range(0, screen_width)
-		var star_y = rng.randi_range(0, screen_height)
-		star.position = Vector2(star_x, star_y)
+		star.position = Util.random_non_overlapping_position(
+			viewport_size,
+			stars_node.get_children(),
+			MIN_FUEL_DISTANCE,
+			MAX_REPOSITION_TRIES
+		)
 		
 		# 4. 배경에 추가
 		stars_node.add_child(star)
-
-# 플레이 시간 측정
-func _process(delta: float) -> void:
-	if not GameState.game_over:
-		GameState.elapsed_time += delta
 
 # 메테오 리스폰 시
 func _on_meteor_spawn_timer_timeout() -> void:
@@ -66,11 +64,13 @@ func _on_player_laser(pos: Vector2) -> void:
 	laser.position = laserCoord
 
 # 동전 리스폰 시
-func _on_coin_spawn_timer_timeout() -> void:
-	if GameState.game_over == true:
+func _on_fuel_spawn_timer_timeout() -> void:
+	var length = $Fuels.get_children().size()
+	
+	if GameState.game_over == true || length >= MAX_FUEL:
 		return
 		
 	# 2. create an instance
-	var coin = coin_scene.instantiate()
+	var fuel = fuel_scene.instantiate()
 	# 3. attach the node to the scene tree
-	$Coins.add_child(coin)
+	$Fuels.add_child(fuel)
