@@ -9,9 +9,9 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jmixh"]
 size = Vector2(84, 152)
 
-[node name="Item" type="Area2D"]
+[node name="Item" type="CharacterBody2D"]
 collision_layer = 32
-collision_mask = 255
+collision_mask = 5
 script = ExtResource("1_tnst4")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

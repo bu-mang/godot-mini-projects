@@ -15,6 +15,8 @@ var is_cracked := false
 
 var index: int
 
+var item_scene := load("res://Scenes/item.tscn")
+
 func _ready():
 	GameState.level_changed.connect(_on_level_changed)
 	
@@ -73,6 +75,13 @@ func _on_area_entered(area: Area2D) -> void:
 
 	is_cracked = true
 	play_flash_animation(true)
+
+	var item = item_scene.instantiate()
+	item.global_position = global_position
+
+	get_tree().root.get_node("Level/Items").add_child(item)
+
+
 
 func play_flash_animation(eliminate: bool):
 	for img in meteorImages:
