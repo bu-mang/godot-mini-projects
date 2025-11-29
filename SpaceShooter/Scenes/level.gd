@@ -62,6 +62,9 @@ func _on_player_laser(pos: Vector2) -> void:
 	if GameState.is_wide_shot:
 		# wide_shot: 부채꼴로 퍼지게
 		var max_angle = 30.0  # 최대 좌우 각도 (도 단위)
+		
+		# 레이저 3개면 간격은 2개 (레이저1 ↔ 레이저2 ↔ 레이저3) => 30도
+		# 레이저 5개면 간격은 4개 => 15도
 		var angle_step = (max_angle * 2) / max(1, laser_count - 1) if laser_count > 1 else 0
 		var start_angle = -max_angle
 

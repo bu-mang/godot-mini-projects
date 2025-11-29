@@ -182,8 +182,8 @@ func _on_game_timer_timeout() -> void:
 	# 게임 시간: 1초마다 증가
 	elapsed_time += 1
 
-	# 30초마다 레벨 업 (1,2,3,4,...)
-	var temp_level = 1 + floor(elapsed_time / 20.0)
+	# 10초마다 레벨 업 (1,2,3,4,...)
+	var temp_level = 1 + floor(elapsed_time / 10.0)
 	if level < temp_level:
 		level = temp_level  # setter 통해 level_changed 시그널 emit
 

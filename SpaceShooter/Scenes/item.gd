@@ -8,12 +8,13 @@ var speed = 300
 var direction: Vector2
 
 func _ready() -> void:
-	item_sprites = [$big_shot, $wide_shot, $add_shot, $fast_shot]
+	item_sprites = [$big_shot, $fast_shot, $add_shot, $wide_shot]
 
 	for item in item_sprites:
 		item.visible = false
 
-	index = rng.randi_range(0, 3)
+	var max_index = 2 if GameState.is_wide_shot else 3
+	index = rng.randi_range(0, max_index)
 	item_sprites[index].visible = true
 
 	# 랜덤한 초기 방향 설정
@@ -52,10 +53,10 @@ func make_player_power_up():
 	match index:
 		0:  # big_shot
 			GameState.upgrade_laser_scale()
-		1:  # wide_shot
-			GameState.activate_wide_shot()
-		2:  # add_shot
-			GameState.add_laser_count(1)
-		3:  # fast_shot
+		1:  # fast_shot
 			GameState.add_laser_speed(200)
 			GameState.decrease_laser_spawn_time(0.1)
+		2:  # add_shot
+			GameState.add_laser_count(1)
+		3:  # wide_shot
+			GameState.activate_wide_shot()

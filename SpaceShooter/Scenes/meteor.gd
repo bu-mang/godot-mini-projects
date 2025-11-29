@@ -80,10 +80,19 @@ func _on_area_entered(area: Area2D) -> void:
 	# 즉시 깨진 상태로 설정 (동시성 문제 방지)
 	is_cracked = true
 
-	# 아이템 생성
-	var item = item_scene.instantiate()
-	item.global_position = global_position
-	get_tree().root.get_node("Level/Items").add_child(item)
+	# 레벨이 오를수록 드랍 확률 감소
+	var drop_chance = rng.randf()  # 0.0 ~ 1.0 사이의 난수
+	var drop_rate: float
+	if GameState.level <= 5:
+		drop_rate = 0.3  # 레벨 1~5: 30% 고정
+	else:
+		# 레벨 6부터: 30% → 5% 점진적 감소 (최소 5%)
+		drop_rate = max(0.05, 0.3 * (1 - (GameState.level - 5) * 0.05))
+
+	if drop_chance < drop_rate:
+		var item = item_scene.instantiate()
+		item.global_position = global_position
+		get_tree().root.get_node("Level/Items").add_child(item)
 
 	# 애니메이션 재생
 	play_flash_animation(true)
@@ -115,6 +124,8 @@ func play_flash_animation(eliminate: bool):
 func _on_flash_finished():
 	queue_free()
 
-func _on_level_changed(_level: int) -> void:
-	min_speed += 500
-	max_speed += 500
+func _on_level_changed(new_level: int) -> void:
+	# 레벨이 오를수록 속도 증가폭이 커짐
+	var speed_increase = 300 + (new_level * 100)  # 레벨 1: +400, 레벨 2: +500, 레벨 3: +600...
+	min_speed += speed_increase
+	max_speed += speed_increase
