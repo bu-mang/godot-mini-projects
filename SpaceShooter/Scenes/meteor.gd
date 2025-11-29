@@ -80,19 +80,25 @@ func _on_area_entered(area: Area2D) -> void:
 	# 즉시 깨진 상태로 설정 (동시성 문제 방지)
 	is_cracked = true
 
-	# 레벨이 오를수록 드랍 확률 감소
-	var drop_chance = rng.randf()  # 0.0 ~ 1.0 사이의 난수
-	var drop_rate: float
-	if GameState.level <= 5:
-		drop_rate = 0.3  # 레벨 1~5: 30% 고정
-	else:
-		# 레벨 6부터: 30% → 5% 점진적 감소 (최소 5%)
-		drop_rate = max(0.05, 0.3 * (1 - (GameState.level - 5) * 0.05))
+	# 현재 아이템 개수 확인 (최대 5개 제한)
+	var items_node = get_tree().root.get_node("Level/Items")
+	var current_item_count = items_node.get_child_count()
 
-	if drop_chance < drop_rate:
-		var item = item_scene.instantiate()
-		item.global_position = global_position
-		get_tree().root.get_node("Level/Items").add_child(item)
+	# 아이템이 5개 미만일 때만 드롭
+	if current_item_count < 5:
+		# 레벨이 오를수록 드랍 확률 감소
+		var drop_chance = rng.randf()  # 0.0 ~ 1.0 사이의 난수
+		var drop_rate: float
+		if GameState.level <= 5:
+			drop_rate = 0.3  # 레벨 1~5: 30% 고정
+		else:
+			# 레벨 6부터: 30% → 5% 점진적 감소 (최소 5%)
+			drop_rate = max(0.05, 0.3 * (1 - (GameState.level - 5) * 0.05))
+
+		if drop_chance < drop_rate:
+			var item = item_scene.instantiate()
+			item.global_position = global_position
+			items_node.add_child(item)
 
 	# 애니메이션 재생
 	play_flash_animation(true)

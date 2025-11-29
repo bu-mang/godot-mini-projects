@@ -26,6 +26,22 @@ func _ready() -> void:
 	# PlayerDetector Area2D로 Player 감지
 	$PlayerDetector.body_entered.connect(_on_player_detected)
 
+	# 5초 후 자동 삭제 타이머
+	var lifetime_timer = Timer.new()
+	lifetime_timer.wait_time = 5.0
+	lifetime_timer.one_shot = true
+	lifetime_timer.autostart = true
+	lifetime_timer.timeout.connect(_on_lifetime_timeout)
+	add_child(lifetime_timer)
+
+	# 3초 후 점멸 시작 타이머 (수명 5초 - 점멸 2초 = 3초)
+	var blink_start_timer = Timer.new()
+	blink_start_timer.wait_time = 3.0
+	blink_start_timer.one_shot = true
+	blink_start_timer.autostart = true
+	blink_start_timer.timeout.connect(_on_blink_start)
+	add_child(blink_start_timer)
+
 
 func _physics_process(delta: float) -> void:
 	if GameState.game_over:
@@ -60,3 +76,18 @@ func make_player_power_up():
 			GameState.add_laser_count(1)
 		3:  # wide_shot
 			GameState.activate_wide_shot()
+
+func _on_lifetime_timeout() -> void:
+	queue_free()
+
+func _on_blink_start() -> void:
+	# 0.2초 간격으로 깜빡이는 타이머 (빠른 점멸)
+	var blink_timer = Timer.new()
+	blink_timer.wait_time = 0.2
+	blink_timer.autostart = true
+	blink_timer.timeout.connect(_on_blink_tick)
+	add_child(blink_timer)
+
+func _on_blink_tick() -> void:
+	# 현재 보이는 아이템 스프라이트를 토글
+	item_sprites[index].visible = !item_sprites[index].visible
