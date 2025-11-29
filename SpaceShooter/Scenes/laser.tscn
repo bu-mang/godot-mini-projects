@@ -5,8 +5,8 @@
 [sub_resource type="CanvasTexture" id="CanvasTexture_juvui"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_r1bh0"]
-radius = 2.0
-height = 16.0
+radius = 4.0
+height = 22.0
 
 [node name="Laser" type="Area2D"]
 collision_layer = 8

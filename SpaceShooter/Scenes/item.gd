@@ -22,6 +22,9 @@ func _ready() -> void:
 		rng.randf_range(-1, 1)
 	).normalized()
 
+	# PlayerDetector Area2D로 Player 감지
+	$PlayerDetector.body_entered.connect(_on_player_detected)
+
 
 func _physics_process(delta: float) -> void:
 	if GameState.game_over:
@@ -30,20 +33,19 @@ func _physics_process(delta: float) -> void:
 	velocity = direction * speed
 	var collision = move_and_collide(velocity * delta)
 
-	# 충돌 처리
-	# KinematicCollision2D | null
+	# 벽과의 충돌 처리 (물리)
 	if collision:
-		# collision.get_collider(): 나와 부딪힌 상대방 객체를 반환
 		var collider = collision.get_collider()
-
-		# Player와 충돌했는지 확인
-		if collider.name == "Player":
-			item_sprites[index].visible = false
-			make_player_power_up()
-			queue_free()  # 아이템 삭제
-		else:
-			# 벽에 부딪히면 튕김
+		# 벽(StaticBody2D)에 부딪히면 튕김
+		if collider is StaticBody2D:
 			direction = direction.bounce(collision.get_normal())
+
+# Player 감지 (Area2D)
+func _on_player_detected(body: Node2D) -> void:
+	if body.name == "Player":
+		item_sprites[index].visible = false
+		make_player_power_up()
+		queue_free()
 	
 
 func make_player_power_up():
@@ -51,7 +53,8 @@ func make_player_power_up():
 		0:  # big_shot
 			GameState.upgrade_laser_scale()
 		1:  # wide_shot
-			GameState.laser_spread_type = GameState.LaserSpreadType.WIDE
+			GameState.upgrade_laser_scale()
+			# GameState.laser_spread_type = GameState.LaserSpreadType.WIDE
 		2:  # add_shot
 			GameState.add_laser_count(1)
 		3:  # fast_shot

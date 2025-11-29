@@ -54,14 +54,21 @@ func _on_meteor_spawn_timer_timeout() -> void:
 func _on_player_laser(pos: Vector2) -> void:
 	if GameState.game_over == true:
 		return
-	
-	# 2. create an instance
-	var laser = laser_scene.instantiate()
-	# 3. attach the node to the scene tree
-	$Lasers.add_child(laser)
-	
-	var laserCoord = pos - Vector2()
-	laser.position = laserCoord
+
+	# GameState.laser_count에 따라 레이저 여러 개 생성 (최대 5개)
+	var laser_count = min(5, GameState.laser_count)
+	var spacing = 40  # 레이저 간 간격
+
+	# 레이저가 중앙을 기준으로 좌우 대칭되게 배치
+	var start_offset = -(laser_count - 1) * spacing / 2.0
+
+	for i in range(laser_count):
+		var laser = laser_scene.instantiate()
+		$Lasers.add_child(laser)
+
+		# x 좌표를 간격만큼 떨어뜨려 배치
+		var offset_x = start_offset + (i * spacing)
+		laser.position = pos + Vector2(offset_x, 0)
 
 # 동전 리스폰 시
 func _on_fuel_spawn_timer_timeout() -> void:

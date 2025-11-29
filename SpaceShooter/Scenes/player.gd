@@ -15,6 +15,11 @@ func _ready() -> void:
 	position = Vector2(widthCoord, heightCoord)
 	z_index = 1
 
+	# 초기 쿨타임 설정
+	$LaserCoolDownTimer.wait_time = GameState.laser_spawn_time
+	# GameState의 laser_spawn_time 변경 시 타이머 업데이트
+	GameState.laser_spawn_time_changed.connect(func(new_time): $LaserCoolDownTimer.wait_time = new_time)
+
 func _process(_delta) -> void:
 	if GameState.game_over:
 		return
@@ -30,7 +35,7 @@ func _process(_delta) -> void:
 	if Input.is_action_just_pressed("shoot") and can_shoot:
 		can_shoot = false  # 쿨타임 시작
 		laser.emit($LaserStartPosition.global_position)
-		$LaserCoolDownTimer.start()  # 0.5초 쿨타임 타이머
+		$LaserCoolDownTimer.start()  # GameState.laser_spawn_time 쿨타임 타이머
 
 func _on_laser_cool_down_timer_timeout() -> void:
 	can_shoot = true

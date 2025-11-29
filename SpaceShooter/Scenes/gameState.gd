@@ -102,7 +102,9 @@ var laser_speed:
 		return _laser_speed
 
 func add_laser_speed(amount: int) -> void:
-	laser_speed += amount
+	var temp = _laser_speed + amount
+	laser_speed = min(1600, temp)  # 최대 1600으로 제한
+
 
 func reset_laser_speed() -> void:
 	laser_speed = 800
@@ -120,7 +122,8 @@ var laser_spawn_time:
 		return _laser_spawn_time
 
 func decrease_laser_spawn_time(amount: float) -> void:
-	laser_spawn_time -= amount
+	var temp = laser_spawn_time - amount
+	laser_spawn_time = max(0.2, temp)
 
 func reset_laser_spawn_time() -> void:
 	laser_spawn_time = 1.0
@@ -152,10 +155,11 @@ var laser_scale:
 		return _laser_scale
 
 func upgrade_laser_scale() -> void:
-	_laser_scale = _laser_scale * 1.1
+	# 0.1씩 증가, 최대 1.8 (8단계: 1.0 -> 1.1 -> 1.2 -> ... -> 1.8)
+	laser_scale = min(1.8, _laser_scale + 0.1)
 
 func reset_laser_scale() -> void:
-	_laser_scale = 1
+	laser_scale = 1.0
 	
 	
 func _ready() -> void:
