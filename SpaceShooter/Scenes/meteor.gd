@@ -73,13 +73,21 @@ func _on_area_entered(area: Area2D) -> void:
 	# 충돌한 레이저 삭제
 	area.queue_free()
 
-	is_cracked = true
-	play_flash_animation(true)
+	# 이미 깨진 경우 아무것도 하지 않음 (중요: 먼저 체크!)
+	if is_cracked:
+		return
 
+	# 즉시 깨진 상태로 설정 (동시성 문제 방지)
+	is_cracked = true
+
+	# 아이템 생성
 	var item = item_scene.instantiate()
 	item.global_position = global_position
-
 	get_tree().root.get_node("Level/Items").add_child(item)
+
+	# 애니메이션 재생
+	play_flash_animation(true)
+
 
 
 
