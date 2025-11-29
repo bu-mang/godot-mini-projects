@@ -130,18 +130,20 @@ func reset_laser_spawn_time() -> void:
 	
 	
 # 공격 옵션(레이저 각도)
-var _laser_spread_type: LaserSpreadType = LaserSpreadType.NARROW
-enum LaserSpreadType { NARROW, WIDE }
-signal laser_spread_type_changed(new_spread_type: LaserSpreadType)
-var laser_spread_type:
+var _is_wide_shot: bool = false
+signal wide_shot_changed(is_wide: bool)
+var is_wide_shot:
 	set(value):
-		_laser_spread_type = value
-		laser_spread_type_changed.emit(_laser_spread_type)
+		_is_wide_shot = value
+		wide_shot_changed.emit(_is_wide_shot)
 	get:
-		return _laser_spread_type
+		return _is_wide_shot
 
-func reset_laser_spread() -> void:
-	laser_spread_type = LaserSpreadType.NARROW
+func activate_wide_shot() -> void:
+	is_wide_shot = true
+
+func reset_wide_shot() -> void:
+	is_wide_shot = false
 	
 
 # 공격 옵션(레이저 크기)

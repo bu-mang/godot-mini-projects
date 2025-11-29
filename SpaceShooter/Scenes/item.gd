@@ -53,8 +53,7 @@ func make_player_power_up():
 		0:  # big_shot
 			GameState.upgrade_laser_scale()
 		1:  # wide_shot
-			GameState.upgrade_laser_scale()
-			# GameState.laser_spread_type = GameState.LaserSpreadType.WIDE
+			GameState.activate_wide_shot()
 		2:  # add_shot
 			GameState.add_laser_count(1)
 		3:  # fast_shot

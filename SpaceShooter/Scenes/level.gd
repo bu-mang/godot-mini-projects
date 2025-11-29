@@ -57,18 +57,32 @@ func _on_player_laser(pos: Vector2) -> void:
 
 	# GameState.laser_count에 따라 레이저 여러 개 생성 (최대 5개)
 	var laser_count = min(5, GameState.laser_count)
-	var spacing = 40  # 레이저 간 간격
 
-	# 레이저가 중앙을 기준으로 좌우 대칭되게 배치
-	var start_offset = -(laser_count - 1) * spacing / 2.0
+	# wide_shot 여부에 따라 배치 방식 결정
+	if GameState.is_wide_shot:
+		# wide_shot: 부채꼴로 퍼지게
+		var max_angle = 30.0  # 최대 좌우 각도 (도 단위)
+		var angle_step = (max_angle * 2) / max(1, laser_count - 1) if laser_count > 1 else 0
+		var start_angle = -max_angle
 
-	for i in range(laser_count):
-		var laser = laser_scene.instantiate()
-		$Lasers.add_child(laser)
+		var spacing = 40  # 레이저 간 간격
+		var start_offset = -(laser_count - 1) * spacing / 2.0
 
-		# x 좌표를 간격만큼 떨어뜨려 배치
-		var offset_x = start_offset + (i * spacing)
-		laser.position = pos + Vector2(offset_x, 0)
+		for i in range(laser_count):
+			var laser = laser_scene.instantiate()
+			laser.angle_degrees = start_angle + (i * angle_step) if laser_count > 1 else 0
+			laser.position = pos + Vector2(start_offset + (i * spacing), 0)
+			$Lasers.add_child(laser)
+	else:
+		# 일반 샷: 수평으로 나란히
+		var spacing = 40  # 레이저 간 간격
+		var start_offset = -(laser_count - 1) * spacing / 2.0
+
+		for i in range(laser_count):
+			var laser = laser_scene.instantiate()
+			laser.angle_degrees = 0
+			laser.position = pos + Vector2(start_offset + (i * spacing), 0)
+			$Lasers.add_child(laser)
 
 # 동전 리스폰 시
 func _on_fuel_spawn_timer_timeout() -> void:
